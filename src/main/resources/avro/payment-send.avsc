@@ -1,0 +1,13 @@
+{
+  "type": "record",
+  "namespace": "br.com.zoro.kafkapub.avro",
+  "name": "PaymentSent",
+  "version": "1",
+  "fields": [
+    { "name": "namePayer", "type": "string", "doc": "Name of client" },
+    { "name": "nameReceiver", "type": "string", "doc": "Name of client" },
+    { "name": "e2e", "type": "string", "doc": "id of payment" },
+    { "name": "amount", "type": "string", "doc": "Value of payment" },
+    { "name": "situation", "type": "boolean", "default": false, "doc": "Legal situation of payment" }
+  ]
+}
