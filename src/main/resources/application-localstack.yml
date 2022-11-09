@@ -11,6 +11,16 @@ cloud:
       endpoint: http://localhost:4566
     sns:
       endpoint: http://localhost:4566
+    dynamodb:
+      endpoint: http://localhost:4566
+      access-key: localstack
+      secret-key: localstack
+
+dynamodb:
+  region: "us-east-1"
+  trust-all-certificates: true
+  endpoint-override: http://localhost:4566
+
 
 management:
   endpoints:

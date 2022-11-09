@@ -6,6 +6,7 @@ import br.com.zoro.kafkapub.repository.domain.PaymentSentDomain
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Repository
+import java.util.*
 
 @Repository
 class PaymentSentRepositoryImpl(
@@ -14,10 +15,11 @@ class PaymentSentRepositoryImpl(
     val log = LoggerFactory.getLogger(this.javaClass)
 
     override fun save(paymentSentDomain: PaymentSentDomain) {
-        log.info("Persistindo pagamento: {}", paymentSentDomain)
-
         try {
+            paymentSentDomain.id = UUID.randomUUID().toString()
+            log.trace("Persistindo pagamento: {}", paymentSentDomain)
             dynamoDBMapper.save(paymentSentDomain)
+            log.info("Persisto com sucesso pagamento: {}", paymentSentDomain)
         }catch (ex: Exception){
             log.error("Erro ao persistir pagamento: {}", ex.message)
             throw PersistenceDBException("Erro ao persistir no banco de dados: " + ex.message)

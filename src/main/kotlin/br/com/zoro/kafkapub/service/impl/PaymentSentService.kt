@@ -16,10 +16,15 @@ class PaymentSentService(
         val log = LoggerFactory.getLogger(this.javaClass)
 
         log.info("Processando pagamento: {}", paymentSentDTO)
+
         //Posta Tópico
         paymentSendProducer.send(paymentSentDTO.maptoPaymentSent())
 
         //Salva dynamoDB
-        paymentSentRepository.save(paymentSentDTO.mapToPaymentSentDomain())
+        try {
+            paymentSentRepository.save(paymentSentDTO.mapToPaymentSentDomain())
+        }catch (e: Exception){
+            log.error("Erro ao persistir mensagem DynamoDB: {}", e.message)
+        }
     }
 }
