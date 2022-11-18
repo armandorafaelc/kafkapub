@@ -5,11 +5,14 @@ provider "aws" {
   skip_credentials_validation = true
   skip_metadata_api_check     = true
   skip_requesting_account_id  = true
+ // s3_force_path_style         = true
+  s3_use_path_style           = true
 
   endpoints {
     dynamodb = "http://localhost:4566"
     sqs   = "http://localhost:4566"
     sns  = "http://localhost:4566"
+    s3  = "http://localhost:4566"
   }
 }
 
@@ -58,4 +61,13 @@ resource "aws_dynamodb_table" "tb_processing" {
     name = "id"
     type = "S"
   }
+}
+//-------------------------------------------------------- s3 Bucket ->  payment-bucket
+resource "aws_s3_bucket" "payment-bucket" {
+  bucket = "payment-bucket"
+}
+
+resource "aws_s3_bucket_acl" "example_bucket_acl" {
+  bucket = aws_s3_bucket.payment-bucket.id
+  acl    = "private"
 }

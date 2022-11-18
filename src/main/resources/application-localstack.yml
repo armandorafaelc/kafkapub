@@ -15,6 +15,9 @@ cloud:
       endpoint: http://localhost:4566
       access-key: localstack
       secret-key: localstack
+    s3:
+      endpoint: http://localhost:4566
+      path-style-access-enabled: true
 
 dynamodb:
   region: "us-east-1"
@@ -45,3 +48,7 @@ spring:
       value-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
       properties:
         schema.registry.url: http://localhost:8081
+  main:
+    allow-bean-definition-overriding: true
+storage:
+  bucket: payment-bucket

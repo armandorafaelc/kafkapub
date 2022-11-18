@@ -19,7 +19,7 @@ class PaymentSentRepositoryImpl(
             paymentSentDomain.id = UUID.randomUUID().toString()
             log.trace("Persistindo pagamento: {}", paymentSentDomain)
             dynamoDBMapper.save(paymentSentDomain)
-            log.info("Persisto com sucesso pagamento: {}", paymentSentDomain)
+            log.info("Persistido com sucesso pagamento: {}", paymentSentDomain)
         }catch (ex: Exception){
             log.error("Erro ao persistir pagamento: {}", ex.message)
             throw PersistenceDBException("Erro ao persistir no banco de dados: " + ex.message)

@@ -5,13 +5,14 @@ services:
     image: localstack/localstack:latest
     environment:
       - AWS_DEFAULT_REGION=us-east-1
-      - SERVICES=sns,sqs,dynamodb,apigateway,ssm
+      - SERVICES=sns,sqs,dynamodb,apigateway,ssm,s3
       - EDGE_PORT=4566
       - DOCKER_HOST=unix:///var/run/docker.sock
+      - S3_DIR=/tmp/s3-buckets
     ports:
       - '4566:4566'
     networks:
-      - "local"
+      - monitoring
 
   dynamodb-admin:
     image: aaronshaf/dynamodb-admin
@@ -25,7 +26,7 @@ services:
     depends_on:
       - "localstack"
     networks:
-      - "local"
+      - monitoring
 
   # this is our kafka cluster.
   kafka-cluster:
@@ -42,25 +43,35 @@ services:
       - 9581-9585:9581-9585       # JMX Ports
       - 9092:9092                 # Kafka Broker
 
+#  prometheus:
+#    image: prom/prometheus:v2.38.0
+#    #network_mode: bridge
+#    container_name: prometheus-container
+#    volumes:
+#      - ./prometheus/:/etc/prometheus/
+#    command:
+#      - '--config.file=/etc/prometheus/prometheus.yaml'
+#    ports:
+#      - "9090:9090"
+#    restart: always
+#    networks:
+#      - metrics
+
   prometheus:
-    image: prom/prometheus:v2.38.0
-    #network_mode: bridge
-    container_name: prometheus-container
+    container_name: prometheus
+    image: prom/prometheus:latest
+    ports:
+      - "9090:9090"
     volumes:
       - ./prometheus/:/etc/prometheus/
     command:
       - '--config.file=/etc/prometheus/prometheus.yaml'
-    ports:
-      - "9090:9090"
-    restart: always
     networks:
-      - "local"
+      - monitoring
 
   grafana:
-    image: grafana/grafana-oss:9.1.4
-    user: "$UID:$GID"
-    #network_mode: bridge
-    container_name: grafana-container
+    container_name: grafana
+    image: grafana/grafana-oss:latest
     depends_on:
       - prometheus
     ports:
@@ -68,11 +79,12 @@ services:
     volumes:
       - ./grafana/:/var/lib/grafana
     environment:
-      - GF_SECURITY_ADMIN_PASSWORD=admin
-      - GF_SERVER_DOMAIN=localhost
+      - "GF_INSTALL_PLUGINS=grafana-clock-panel,grafana-simple-json-datasource"
+      - "GF_SECURITY_ADMIN_PASSWORD=admin"
     networks:
-      - "local"
-networks:
-  local:
-    driver: "bridge"
+      - monitoring
 
+networks:
+  monitoring:
+    driver: "bridge"
+    name: "spring_ntw"
