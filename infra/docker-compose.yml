@@ -9,10 +9,29 @@ services:
       - EDGE_PORT=4566
       - DOCKER_HOST=unix:///var/run/docker.sock
       - S3_DIR=/tmp/s3-buckets
+      - DATA_DIR=/tmp/localstack/data
+      - LEGACY_DIRECTORIES=1
     ports:
       - '4566:4566'
+    volumes:
+      - "./.localstack:/tmp/localstack"
+      - "/var/run/docker.sock:/var/run/docker.sock"
     networks:
       - monitoring
+
+  localstack-s3-ui:
+    container_name: localstack-s3-ui
+    depends_on:
+      - localstack
+    image: gosuper/localstack-s3-ui
+    ports:
+      - 9000:9000
+    environment:
+      - API_REQ_FILE_PATH=/tmp/localstack/data/recorded_api_calls.json // Required
+      - PORT=9000 // Defaults to 9000
+    volumes:
+      - "./.localstack:/tmp/localstack"
+
 
   dynamodb-admin:
     image: aaronshaf/dynamodb-admin

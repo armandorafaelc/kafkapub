@@ -1,5 +1,6 @@
 package br.com.zoro.kafkapub.aspects
 
+import br.com.zoro.kafkapub.configuration.PAYMENT_SENT
 import io.micrometer.core.instrument.MeterRegistry
 import org.aspectj.lang.annotation.After
 import org.aspectj.lang.annotation.Aspect
@@ -25,7 +26,7 @@ class MeterRegistryAspect(
 
 	@After("execution(* br.com.zoro.kafkapub.producer..*(..))")
 	fun allMethodsProducer() {
-		meterRegistry.counter("ProducerKafka", "producerKafka", UUID.randomUUID().toString())
+		meterRegistry.counter("ProducerKafka", "producerKafka", PAYMENT_SENT)
 		log.info("Gerando metrica producer")
 	}
 

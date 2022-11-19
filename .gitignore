@@ -69,3 +69,6 @@ terraform.rc
 
 #Ignore Grafana
 /infra/grafana/
+
+#Ignore Localstack files
+/infra/.localstack/

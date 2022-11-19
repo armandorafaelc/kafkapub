@@ -17,7 +17,7 @@ cloud:
       secret-key: localstack
     s3:
       endpoint: http://localhost:4566
-      path-style-access-enabled: true
+      pathStyleAccessEnable: true
 
 dynamodb:
   region: "us-east-1"
