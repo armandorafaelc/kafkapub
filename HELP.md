@@ -5,11 +5,16 @@
 
 Este projeto tem por finalidade, estudar tecnologias emergentes.
 
-Ela consistem em receber um 'Pagamento', via AWS SQS, e processar este pagamento atraves de Kafka e persistindo
-em um banco de dados DynamoDB.
+O projeto consiste em receber um 'Pagamento', via AWS SQS, e processar este pagamento atraves de Kafka e persistindo
+em um banco de dados DynamoDB. O Projeto tambem contempla Observability, ou seja, ele possui um Grafana e Prometheus já criados 
+para poder criar dashboards.
 
-
-
+#### Observação 
+Para correto funcionamento do prometheus, deverá ser alterado o arquivo localizado em:
+ '/infra/prometheus/prometheus.yaml'.
+``` 
+- targets: ['ALTERAR_PARA_NOME_MAQUINA:8080', 'ALTERAR_PARA_NOME_MAQUINA:8181']
+```
 
 ### Subindo o ambiente - Localstack
 Para conseguir executar o ambiente com sucesso, você deverá possuir 
@@ -48,3 +53,7 @@ Após a infra instalada, poderemos prosseguir com os seguinte teste local:
 ``
 -Dspring.profiles.active=localstack
 ``
+
+### Projeto Mock Geração de eventos
+[Github - KafkaPub](https://github.com/armandorafaelc/mockpayments)
+
