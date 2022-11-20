@@ -1,5 +1,0 @@
-{
-  "QueueUrl": "http://localhost:4566/000000000000/publisher-queue",
-  "MessageBody": "{\"namePayer\" : \"Armando\",\n  \"nameReceiver\" : \"Rebeca\",\"e2e\" : \"E12312312\",\"amount\" : \"123.12\",\"situation\" : true}",
-  "DelaySeconds": 0
-}
