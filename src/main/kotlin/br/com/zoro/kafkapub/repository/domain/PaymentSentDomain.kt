@@ -13,8 +13,7 @@ data class PaymentSentDomain (
     var id: String? = null,
 
     @DynamoDBAttribute(attributeName = "date_time_processing")
-    @DynamoDBTypeConverted(converter = LocalDateTimeConverter::class)
-    val dateTime: LocalDateTime? = null,
+    val dateTime: String? = null,
 
     @DynamoDBAttribute(attributeName = "e2e")
     val end2end: String? = null,
@@ -26,5 +25,6 @@ data class PaymentSentDomain (
     val nameReceiver: String? = null,
 
     @DynamoDBAttribute(attributeName = "amount")
-    val amount: String? = null
+    val amount: String? = null,
+
 )

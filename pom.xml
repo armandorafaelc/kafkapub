@@ -200,6 +200,28 @@
 					</execution>
 				</executions>
 			</plugin>
+
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.8.8</version>
+				<configuration>
+					<excludes>
+						<exclude>**/br/com/zoro/kafkapub/repository/converter/**</exclude>
+						<exclude>**/br/com/zoro/kafkapub/aspects/**</exclude>
+						<exclude>**/br/com/zoro/kafkapub/configuration/**</exclude>
+						<exclude>**/br/com/zoro/kafkapub/KafkapubApplication**</exclude>
+					</excludes>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>prepare-agent</goal>
+							<goal>report</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
 

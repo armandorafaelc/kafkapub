@@ -9,12 +9,12 @@ import org.springframework.stereotype.Component
 
 @Component
 class QueueConsumer(
-    val paymentSentService: PaymentSentService
-    ) {
+    private val paymentSentService: PaymentSentService
+) {
     val log = LoggerFactory.getLogger(this.javaClass)
 
     @SqsListener(value = ["publisher-queue"], deletionPolicy = SqsMessageDeletionPolicy.ON_SUCCESS)
-    fun listen(payment: PaymentEventDTO){
+    fun listen(payment: PaymentEventDTO) {
         log.info("Recebendo mensagem mensagem: {}", payment)
         paymentSentService.processPaymentSent(payment)
     }
